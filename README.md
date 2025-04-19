@@ -21,7 +21,7 @@ The compiled dataset can be accessed through the Zenodo repository: [ProtAnno](h
 <img src="figures/data_distribution_1.png" alt="data_1" width="480" height="200"> 
 Figure 2: Data distribution of ProtAnno-S and ProtAnno-D with different property coverage.
 
-<img src="figures/data_distribution_2.png" alt="data_2" width="700" height="150"> 
+<img src="figures/data_distribution_2.png" alt="data_2" width="600" height="120"> 
 Table 1: Data distribution of ProtAnno-S and ProtAnno-D with different sample confidence.
 
 Note that the ProtAnno-D dataset has been filtered using the property-driven sampling strategy.
