@@ -1,5 +1,5 @@
 # ProtCLIP: Function-Informed Protein Multi-Modal Learning
-ProtCLIP is a protein multi-modality foundation model for protein sequence understanding, aligning protein sequences and biotexts, as introduced in our [AAAI 2025 oral paper](https://ojs.aaai.org/index.php/AAAI/article/view/34456). And we have contained more technical details in the [arxiv version](https://arxiv.org/abs/2412.20014).
+ProtCLIP is a protein multi-modality foundation model for protein sequence understanding, aligning protein sequences and biotexts, as introduced in our [AAAI 2025 oral paper](https://ojs.aaai.org/index.php/AAAI/article/view/34456). And we have contained more technical details in the [arXiv version](https://arxiv.org/abs/2412.20014).
 
 <img src="figures/overview.png" alt="framework" width="850" height="300"> 
 Figure 1: Overview of ProtCLIP.
@@ -18,11 +18,11 @@ ProtAnno, which is available in sparse version (ProtAnno-S) and dense version (P
 
 The compiled dataset can be accessed through the Zenodo repository: [ProtAnno](https://zenodo.org/records/15245588)
 
-<img src="figures/data_distribution_1.png" alt="data_1" width="850" height="300"> 
+<img src="figures/data_distribution_1.png" alt="data_1" width="480" height="200"> 
 Figure 2: Data distribution of ProtAnno-S and ProtAnno-D with different property coverage.
 
-<img src="figures/data_distribution_2.png" alt="data_2" width="850" height="300"> 
-Figure 3: Data distribution of ProtAnno-S and ProtAnno-D with different sample confidence.
+<img src="figures/data_distribution_2.png" alt="data_2" width="700" height="150"> 
+Table 1: Data distribution of ProtAnno-S and ProtAnno-D with different sample confidence.
 
 Note that the ProtAnno-D dataset has been filtered using the property-driven sampling strategy.
 
