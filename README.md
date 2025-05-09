@@ -32,11 +32,25 @@ We hope ProtCLIP could serve as the protein multi-modality foundation model to p
 ProtCLIP: [config](https://github.com/diaoshaoyou/ProtCLIP/blob/main/config/config.json) | [checkpoint](https://zenodo.org/records/15245588/files/model.safetensors?download=1)
 
 ## Usage
+We train and test our models on Platform of Artificial Intelligence (PAI) from Alibaba Cloud. Here are some basic setups:
+```
+deepspeed zero1
+gradient_checkpointing=True
+pretraining/testing batch size=64
+```
 
+### Dataset
+Beyond the accessed dataset above, we also include filtering codes for generating ProtAnno in [sampling.py](https://github.com/diaoshaoyou/ProtCLIP/blob/main/src/sampling.py). Please download orignal data from SwissProt and trEMBL before running ``sampling.py``. You can adjust exponents of different variables to control the filtering intensity.
+
+### Pre-training
+
+
+### Downstream
+You can run ``downstream_pai.sh`` to perform downstream tasks. We provide neccessary configuration files in [downstream.json](https://github.com/diaoshaoyou/ProtCLIP/blob/main/config/downstream.json) and default values are used for the remaining hyperparameters.
 
 ## License
 This codebase is released under the Apache License 2.0 as in the [LICENSE](https://github.com/diaoshaoyou/ProtCLIP/blob/main/LICENSE) file.
-
+)
 ## Citation
 If you find this research work interesting and helpful, please cite our paper:
 ```

@@ -1,0 +1,61 @@
+dataset: 'AAV'
+task: 'SequenceRegressionTask'
+num_labels: 1
+metric_for_best_model: 'mae'
+
+dataset: 'BetaLactamase'
+task: 'SequenceRegressionTask'
+num_labels: 1
+metric_for_best_model: 'mae'
+
+dataset: 'Fluorescence'
+task: 'SequenceRegressionTask'
+num_labels: 1
+metric_for_best_model: 'mae'
+
+dataset: 'Stability'
+task: 'SequenceRegressionTask'
+num_labels: 1
+metric_for_best_model: 'mae'
+
+dataset: 'Thermostability'
+task: 'SequenceRegressionTask'
+num_labels: 1
+metric_for_best_model: 'mae'
+
+
+dataset: 'BinaryLocalization'
+task: 'SingleLabelSequenceClassificationTask'
+num_labels: 2
+metric_for_best_model: 'accuracy'
+
+dataset: 'SubcellularLocalization'
+task: 'SingleLabelSequenceClassificationTask'
+num_labels: 10
+metric_for_best_model: 'accuracy'
+
+dataset: 'Reaction'
+task: 'SingleLabelSequenceClassificationTask'
+num_labels: 384
+metric_for_best_model: 'accuracy'
+
+
+dataset: 'EnzymeCommission'
+task: 'MultiLabelSequenceClassificationTask'
+num_labels: 538
+metric_for_best_model: 'f1_max'
+
+dataset: 'GeneOntology_BP'
+task: 'MultiLabelSequenceClassificationTask'
+num_labels: 1943
+metric_for_best_model: 'f1_max'
+
+dataset: 'GeneOntology_CC'
+task: 'MultiLabelSequenceClassificationTask'
+num_labels: 320
+metric_for_best_model: 'f1_max'
+
+dataset: 'GeneOntology_MF'
+task: 'MultiLabelSequenceClassificationTask'
+num_labels: 489
+metric_for_best_model: 'f1_max'

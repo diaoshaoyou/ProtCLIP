@@ -1,5 +1,4 @@
 {
-  "MOLE": 0,
   "architectures": [
     "FSTForPretrain"
   ],
@@ -15,20 +14,9 @@
   "local_logit_scale_init": 0.1,
   "local_pool": "avg",
   "logit_scale_init": 0.07,
-  "lora_alpha": 32,
-  "lora_dropout": 0.1,
-  "lora_r": 32,
-  "lora_target_modules": [
-    "query",
-    "key",
-    "value",
-    "dense"
-  ],
   "mlp_num_layers": 2,
   "mmp": 0,
   "model_type": "FST",
-  "mole_gate_mode": "top2_gate",
-  "mole_num_experts": 6,
   "projection_dim": 512,
   "protein_mask_probability": 0.15,
   "protein_model_config": {

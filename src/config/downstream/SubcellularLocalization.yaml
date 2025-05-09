@@ -1,0 +1,33 @@
+hydra:
+  run:
+    dir: '/root/hydra/${task_name}/${now:%Y-%m-%d_%H-%M-%S}'
+
+task_name: 'esm2_t30_150M_UR50D_SubcellularLocalization'
+
+# path
+data_path: '/root/data/datasets/ProtSTData'
+output_path: '/root/data/FST/${task_name}/SubLoc20_mlm_text_embed0.5'
+
+# model
+model_name: '/root/data/FST/esm2_t30_150M_UR50D_ProtST/mlm_text_embed0.5/checkpoint-337880'
+protein_model_name: '/root/ckpt'
+protein_model_fixed: True
+lr_ratio: 0.1
+
+# dataset
+dataset: 'SubcellularLocalization'
+max_length: 1024
+num_labels: 10
+
+# train
+lr: 5e-5
+fp16: True
+batch_size: 64
+num_epochs: 200
+weight_decay: 0.0
+
+# eval
+metric_for_best_model: 'accuracy'
+
+# task
+task: 'SingleLabelSequenceClassificationTask'
