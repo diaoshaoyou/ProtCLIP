@@ -213,13 +213,6 @@ class FSTPretrainTask(ProteinTextCLIPPretrainTask):
             proto_dim=self.run_config.proto_dim,
             proto_num=self.run_config.proto_num,
             local_pool=self.run_config.local_pool,
-            # MOLE=self.run_config.MOLE,
-            # lora_r=self.run_config.lora_r,
-            # lora_alpha=self.run_config.lora_alpha,
-            # lora_dropout=self.run_config.lora_dropout,
-            # lora_target_modules=self.run_config.lora_target_modules,
-            # mole_num_experts=self.run_config.mole_num_experts,
-            # mole_gate_mode=self.run_config.mole_gate_mode
         )
 
         return FSTForPretrain(task_model_config)

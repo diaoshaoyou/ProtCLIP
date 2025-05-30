@@ -7,8 +7,6 @@ from transformers import EsmPreTrainedModel, EsmModel, AutoModel
 from transformers.modeling_outputs import SequenceClassifierOutput
 from transformers.models.esm.modeling_esm import ESM_INPUTS_DOCSTRING
 from transformers.utils import add_start_docstrings_to_model_forward
-# from peft import LoraConfig, TaskType, get_peft_model
-# from model.mole import MOLEConfig
 from model.modeling_esm import MyEsmAutoModel
 
 class EsmClassificationHead(nn.Module):
@@ -38,37 +36,13 @@ class EsmForSequenceClassification(EsmPreTrainedModel):
     def __init__(self, 
                 config,
                 num_labels,
-                # MOLE,
-                # protein_model_state=None,
-                # lora_r=None,
-                # mole_num_experts=None,
-                # mole_gate_mode=None,
-                # lora_alpha=None,
-                # lora_dropout=None,
-                # lora_target_modules=None
                 ):
         super().__init__(config)
-        # self.MOLE = MOLE
+    
         self.num_labels = num_labels
         self.config = config
-        # if self.MOLE == 0:
-        if True:
-            self.protein_model = MyEsmAutoModel.from_pretrained(config._name_or_path)
-        # elif self.MOLE == 1:
-        #     self.protein_model = AutoModel.from_pretrained('/root/data/backbones/esm2_t33_650M_UR50D')
-        #     MOLE_config = MOLEConfig(
-        #         task_type=TaskType.FEATURE_EXTRACTION,
-        #         inference_mode=True,
-        #         r=lora_r,
-        #         num_experts=mole_num_experts,
-        #         gate_mode=mole_gate_mode,
-        #         lora_alpha=lora_alpha,
-        #         lora_dropout=lora_dropout,
-        #         target_modules=lora_target_modules,
-        #     )
-        #     self.protein_model = get_peft_model(self.protein_model, MOLE_config)
-        #     self.protein_model.load_state_dict(protein_model_state)
-
+      
+        self.protein_model = MyEsmAutoModel.from_pretrained(config._name_or_path)
         self.classifier = EsmClassificationHead(config, self.num_labels)
 
         self.init_weights()

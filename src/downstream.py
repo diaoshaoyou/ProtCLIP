@@ -1,4 +1,3 @@
-import hydra
 import transformers
 import wandb
 import os
@@ -22,7 +21,7 @@ def main():
     parser.add_argument('--output_path', type=str, default='/root/data/FST/SubLoc/')
     # model
     parser.add_argument('--model_name', type=str)
-    parser.add_argument('--protein_model_name', type=str, default='FST/best_ckpt')
+    parser.add_argument('--protein_model_name', type=str, default='best_ckpt')
     parser.add_argument('--protein_model_fixed', type=bool, default=False)
     parser.add_argument('--text_model_name', type=str, default='/root/data/backbones/BiomedNLP-PubMedBERT-base-uncased-abstract')
     parser.add_argument('--text_model_fixed', type=bool, default=True)

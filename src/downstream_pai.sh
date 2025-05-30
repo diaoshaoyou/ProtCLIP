@@ -18,24 +18,14 @@ echo "==========================================================================
 
 
 # run
-torchrun $ddp_options /root/code/protein/FST/downstream.py \
---deepspeed --deepspeed_config /root/code/protein/FST/zero1.json \
---output_path /root/data/FST/GOMF/ff_mlm0.7_5 \
---model_name /root/data/FST/mlm0.7/checkpoint-5280 \
---task MultiLabelSequenceClassificationTask \
---dataset GeneOntology_MF \
---num_labels 489 \
---metric_for_best_model f1_max 
-
-# --task SingleLabelSequenceClassificationTask \
-# --dataset  SubcellularLocalization  \
-# --num_labels  10  \
-# --metric_for_best_model accuracy \
-
-# --task SequenceRegressionTask \
-# --dataset Thermostability \
-# --num_labels 1 \
-# --metric_for_best_model mae
+torchrun $ddp_options /root/CODE/protCLIP/downstream.py \
+--deepspeed --deepspeed_config /root/CODE/ProtCLIP/zero1.json \
+--output_path /root/DATA/ProtCLIP/Sub \
+--model_name /root/DATA/ProtCLIP/checkpoint \
+--task SingleLabelSequenceClassificationTask \
+--dataset  SubcellularLocalization  \
+--num_labels  10  \
+--metric_for_best_model accuracy
 
 
 

@@ -6,13 +6,11 @@ from torch.distributed import get_rank, get_world_size
 from torch.distributed.nn.functional import all_gather
 from torch.nn.functional import cross_entropy
 from transformers import PreTrainedModel, PretrainedConfig, AutoConfig, AutoModel
-# from peft import LoraConfig, TaskType, get_peft_model
 
 from model.layers import CrossAttention, CLIPLoss
 from model.bank import AttrProtoBank
 from model.attention import LocalCrossAttention, FragmentDecoder
 from model.modeling_esm import MyEsmAutoModel
-# from model.mole import MOLEConfig, MOLELayer, Top2Gating
 import pdb
 
 class ProteinTextCLIPConfig(PretrainedConfig):
@@ -112,13 +110,6 @@ class FSTConfig(PretrainedConfig):
                  proto_dim=512,
                  proto_num=512,
                  local_pool='avg',
-                #  MOLE=0,
-                #  lora_r=32,
-                #  lora_alpha=32,
-                #  lora_dropout=0.1,
-                #  lora_target_modules=['query', 'key', 'value', 'dense'],
-                #  mole_num_experts=6,
-                #  mole_gate_mode='top2_gate',
                  **kwargs):
         super().__init__(**kwargs)
 
@@ -150,14 +141,6 @@ class FSTConfig(PretrainedConfig):
         self.proto_num = proto_num
         self.local_pool = local_pool
         self.local_logit_scale_init = 0.1
-        # self.MOLE = MOLE
-        # self.lora_r = lora_r
-        # self.lora_alpha = lora_alpha
-        # self.lora_dropout = lora_dropout
-        # self.lora_target_modules = lora_target_modules
-        # self.mole_num_experts = mole_num_experts
-        # self.mole_gate_mode = mole_gate_mode
-
 
 class FSTForPretrain(PreTrainedModel):
     # enable gradient_checkpointing
@@ -175,18 +158,9 @@ class FSTForPretrain(PreTrainedModel):
         self.local_contrast = self.config.local_contrast
         self.t2p_mlm = self.config.t2p_mlm
 
-        # self.protein_model = AutoModel.from_pretrained(protein_model_config._name_or_path)
         # enable gradient_checkpointing
         self.protein_model = MyEsmAutoModel.from_pretrained(protein_model_config._name_or_path)
-        # self.protein_model.gradient_checkpointing_enable()
-        # if self.config.MOLE==1:
-        #     mole_config = self.build_peft_config()
-        #     self.protein_model = get_peft_model(self.protein_model, mole_config)
-        #     self.protein_model.print_trainable_parameters()
-        #     self.gate_mode = self.config.mole_gate_mode
-        #     assert self.gate_mode in ['top2_gate']
-        #     self.gating_network = Top2Gating(text_model_config.hidden_size, self.config.mole_num_experts)
-
+        
         self.text_model = AutoModel.from_pretrained(text_model_config._name_or_path)
         self.protein_projection = nn.Sequential(
             nn.Linear(protein_model_config.hidden_size, self.config.projection_dim),
@@ -254,28 +228,6 @@ class FSTForPretrain(PreTrainedModel):
             if module.bias is not None:
                 module.bias.data.zero_()
 
-    # def build_peft_config(self):
-    #     peft_config = MOLEConfig(
-    #         task_type=TaskType.FEATURE_EXTRACTION,
-    #         inference_mode=False,
-    #         r=self.config.lora_r,
-    #         num_experts=self.config.mole_num_experts,
-    #         gate_mode=self.config.mole_gate_mode,
-    #         lora_alpha=self.config.lora_alpha,
-    #         lora_dropout=self.config.lora_dropout,
-    #         target_modules=self.config.lora_target_modules,
-    #         )
-    #     return peft_config
-
-    # def moe_set_gate(self, text_outputs):
-    #     """Params:
-    #         text_outptus: [bsz, token_len, dim], embedding of each token
-    #     """
-    #     soft_gate = self.gating_network(text_outputs) # weights of all experts, [bsz, num_experts]
-    #     for _, module in self.protein_model.named_modules():
-    #         if isinstance(module, MOLELayer):
-    #             module.set_gate(soft_gate)
-    #     return
 
     def forward(self,
                 current_epoch,
@@ -302,8 +254,7 @@ class FSTForPretrain(PreTrainedModel):
         text_embeds = text_outputs.mean(dim=1) #[bsz, dim]
         text_embeds = self.text_projection(text_embeds)
 
-        # if self.config.MOLE == 1:
-        #     self.moe_set_gate(text_outputs)
+    
         protein_outputs = self.protein_model(
             input_ids=protein_input_ids, attention_mask=protein_attention_mask
         ).last_hidden_state
@@ -324,7 +275,7 @@ class FSTForPretrain(PreTrainedModel):
         )(protein_embeds, text_embeds, self.logit_scale.exp())
         loss_dict['cl_loss'] = cl_loss
         loss_dict['loss'] = cl_loss
-        # del text_embeds
+
         del protein_embeds
 
         # compute outputs
@@ -357,7 +308,6 @@ class FSTForPretrain(PreTrainedModel):
 
         if self.local_contrast == 1:
             with torch.no_grad():
-            # if True:
                 subtext_num = len(subtext_input_ids[0])
                 subtext_embeds = []
                 for i in range(subtext_num):
@@ -381,19 +331,12 @@ class FSTForPretrain(PreTrainedModel):
                                              attention_mask=protein_attention_mask).last_hidden_state #[bsz, token_len, dim]
             protein_t2p_mlm_loss = self.t2p_mlm_loss(fragment_masked_labels, 
                                                      text_outputs,
-                                                    #  protein_outputs, 
                                                      protein_outputs2)
             loss_dict['protein_t2p_mlm_loss'] = protein_t2p_mlm_loss
             loss_dict['loss'] += protein_t2p_mlm_loss*0.7
             del protein_outputs2
         
         if self.local_contrast == 1:
-            # local_protein_loss, local_text_loss = self.local_contrastive_loss(subtext_embeds if current_epoch < 0 else subtext_proto_embeds, 
-            #                                                                   fragment_positions, 
-            #                                                                   protein_outputs)
-            # local_contrast_loss = local_text_loss + local_protein_loss
-            # loss_dict['local_text_loss'] = local_text_loss
-            # loss_dict['local_protein_loss'] = local_protein_loss
             local_contrast_loss = self.local_contrastive_loss(subtext_proto_embeds, self.protein_projection(protein_outputs))
             loss_dict['local_contrast_loss'] = local_contrast_loss 
             loss_dict['loss'] += local_contrast_loss
@@ -402,43 +345,8 @@ class FSTForPretrain(PreTrainedModel):
         loss_dict['logit_scale'] = self.logit_scale.exp()
         return loss_dict
     
-    # def local_contrastive_loss(self, subtext_embeds, fragment_positions, protein_outputs):
-    #     """Params:
-    #         subtext_embeds: [bsz, subtext_num, dim], embeddings of each subtext/prototype
-    #         fragment_positions: [bsz, frag_num, 2], start position of each fragment
-    #         protein_outputs: [bsz, token_len, dim]
-    #     """
-    #     bsz = fragment_positions.shape[0]
-    #     local_text_loss = 0.
-    #     local_protein_loss = 0.
-    #     for b in range(bsz):
-    #         # get fragment embeddings
-    #         with torch.no_grad():
-    #         # if True:
-    #             frag_num = len(fragment_positions[b])
-    #             frag_embeds = []
-    #             for i in range(frag_num):
-    #                 if fragment_positions[b][i][0] == -1:
-    #                     break
-    #                 # if i > 0 and i< frag_num - 1 and fragment_positions[b][i+1][0] != -1:
-    #                 #     continue
-    #                 frag_out = protein_outputs[b][fragment_positions[b][i][0]:fragment_positions[b][i][1]] #[fragment_range, dim]
-    #                 frag_out = torch.unsqueeze(frag_out, dim=0) #[1, fragment_range, dim]
-    #                 frag_embed = self.local_pool(frag_out) #[1, dim]
-    #                 frag_embed = self.protein_projection(frag_embed) #[1, dim=512]
-    #                 frag_embeds.append(frag_embed) 
-    #             frag_embeds = torch.cat(frag_embeds, dim=0) #[frag_num, dim]
-    #         # get local constrastive loss
-    #             subtext2frag_embed, _, frag2subtext_embed, _ = self.local_cross_attention(frag_embeds, subtext_embeds[b])
-            
-    #         local_text_loss += self._local_loss_fn(subtext_embeds[b], frag2subtext_embed)        
-    #         local_protein_loss += self._simsiam_loss_fn(frag_embeds, subtext2frag_embed)
-    #     local_text_loss /= bsz
-    #     local_protein_loss /= bsz
-    #     return local_protein_loss, local_text_loss
 
     def local_contrastive_loss(self, text_outputs, protein_outputs):
-        # threshold = 1 / protein_outputs.shape[1]
         threshold = 0.3
         # eps=1e-8
         similarity = torch.einsum('btd,bpd->btp', text_outputs, protein_outputs)
@@ -465,30 +373,10 @@ class FSTForPretrain(PreTrainedModel):
         loss = F.cross_entropy(logits, labels)
         return loss
     
-    # def _local_loss_fn(self, embed_A, embed_B, norm=True):
-    #     logit_scale = self.local_logit_scale[0].exp()
-    #     if norm:
-    #         embed_A = F.normalize(embed_A, dim=-1, p=2)
-    #         embed_B = F.normalize(embed_B, dim=-1, p=2)
-    #     self.lc_labels = torch.arange(embed_B.size(0), device=embed_B.device).long()
-    #     logits_per_image = logit_scale * embed_B @ embed_A.t()
-    #     logits_per_text = logit_scale * embed_A @ embed_B.t()
-    #     image_loss = F.cross_entropy(logits_per_image, self.lc_labels)
-    #     text_loss = F.cross_entropy(logits_per_text, self.lc_labels)
-    #     loss = (image_loss + text_loss) / 2   
-    #     return loss
-    
-    # def _simsiam_loss_fn(self, x, y, flag='image'):
-    #     p_x = self.predictor(x)
-    #     p_y = self.predictor(y)
-    #     z_x = x.detach()
-    #     z_y = y.detach()
-    #     return - (F.cosine_similarity(p_x, z_y, dim=-1).mean() + F.cosine_similarity(p_y, z_x, dim=-1).mean()) * 0.5
 
     def t2p_mlm_loss(self, 
                      fragment_masked_labels,  
                      text_outputs,
-                    #  protein_outputs,
                      protein_outputs2):
         """Params:
             fragment_masked_labels: [bsz, token_len], eg. (-100, -100, 5, 8, -100, ..)

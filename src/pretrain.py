@@ -1,4 +1,3 @@
-import hydra
 import transformers
 import wandb
 import os
@@ -15,12 +14,12 @@ pretrain_tasks = __import__('task.pretrain_task', fromlist='*')
 
 def main():
     parser = argparse.ArgumentParser(description='FST')
-    parser.add_argument('--task_name', type=str, default='esm2_t33_650M_UR50D_ProtST')
+    parser.add_argument('--task_name', type=str, default='esm2_t33_650M_UR50D_ProtCLIP')
     # path
-    parser.add_argument('--data_path', type=str, default='/root/data/datasets/ProtSTData')
-    parser.add_argument('--output_path', type=str, default='/root/data/FST/')
+    parser.add_argument('--data_path', type=str, default='/root/DATA/datasets/ProtSTData')
+    parser.add_argument('--output_path', type=str, default='/root/DATA/ProtCLIP')
     # model
-    parser.add_argument('--protein_model_name', type=str, default='/root/data/backbones/esm2_t33_650M_UR50D')
+    parser.add_argument('--protein_model_name', type=str, default='/root/DATA/backbones/esm2_t33_650M_UR50D')
     parser.add_argument('--protein_model_fixed', type=bool, default=False)
     parser.add_argument('--text_model_name', type=str, default='/root/data/backbones/BiomedNLP-PubMedBERT-base-uncased-abstract')
     parser.add_argument('--text_model_fixed', type=bool, default=True)
@@ -56,14 +55,6 @@ def main():
     parser.add_argument('--mmp', type=int, default=0)
     parser.add_argument('--t2p_mlm', type=int, default=1)
     parser.add_argument('--local_contrast', type=int, default=1)
-    # MOLE
-    # parser.add_argument('--MOLE', type=int, default=0)
-    # parser.add_argument('--lora_r', type=int, default=32)
-    # parser.add_argument('--lora_alpha', type=int, default=32)
-    # parser.add_argument('--lora_dropout', type=float, default=0.1)
-    # parser.add_argument('--lora_target_modules', nargs='+', default=['query', 'key', 'value', 'dense'])
-    # parser.add_argument('--mole_num_experts', type=int, default=6)
-    # parser.add_argument('--mole_gate_mode', type=str, default='top2_gate')
     # RANK
     parser.add_argument('--local_rank', type=int, default=0, help='machine local_rank')
     # deepspeed

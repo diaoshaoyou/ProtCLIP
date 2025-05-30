@@ -18,7 +18,7 @@ echo "==========================================================================
 
 
 # run
-torchrun $ddp_options /root/code/protein/FST/pretrain.py \
---deepspeed --deepspeed_config /root/code/protein/FST/zero1.json \
+torchrun $ddp_options /root/CODE/ProtCLIP/pretrain.py \
+--deepspeed --deepspeed_config /root/CODE/ProtCLIP/zero1.json \
 --batch_size 64 \
---output_path /root/data/FST/newdata_mlm0.7_sparc0.3
+--output_path /root/DATA/ProtCLIP/checkpoint

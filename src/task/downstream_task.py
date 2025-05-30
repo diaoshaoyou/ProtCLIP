@@ -91,24 +91,7 @@ class SingleLabelSequenceClassificationTask(DownstreamTask):
         model_config = AutoConfig.from_pretrained(self.run_config.protein_model_name)
         return EsmForSequenceClassification(model_config, 
                                             self.run_config.num_labels)
-        # if self.run_config.MOLE == 0:
-        #     model_config = AutoConfig.from_pretrained(self.run_config.protein_model_name)
-        #     return EsmForSequenceClassification(model_config, 
-        #                                         self.run_config.num_labels,
-        #                                         self.run_config.MOLE)
-        # elif self.run_config.MOLE == 1:
-        #     model_config = EsmConfig(**self.run_config.protein_model_config)
-        #     return EsmForSequenceClassification(model_config, 
-        #                                         self.run_config.num_labels,
-        #                                         self.run_config.MOLE,
-        #                                         protein_model_state=self.run_config.protein_model_state,
-        #                                         lora_r=self.run_config.lora_r,
-        #                                         mole_num_experts=self.run_config.mole_num_experts,
-        #                                         mole_gate_mode=self.run_config.mole_gate_mode,
-        #                                         lora_alpha=self.run_config.lora_alpha,
-        #                                         lora_dropout=self.run_config.lora_dropout,
-        #                                         lora_target_modules=self.run_config.lora_target_modules)
-
+        
     def compute_metrics(self, eval_pred):
         predictions, labels = eval_pred
         predictions = np.argmax(predictions, axis=1)
@@ -174,25 +157,8 @@ class SequenceRegressionTask(SingleLabelSequenceClassificationTask):
 class TransferTask(object):
     def __init__(self, run_config):
         self.run_config = run_config
-        # if self.run_config.MOLE == 1: 
-        #     self.protein_model = AutoModel.from_pretrained('/root/data/backbones/esm2_t33_650M_UR50D')
-        #     MOLE_config = MOLEConfig(
-        #                 task_type=TaskType.FEATURE_EXTRACTION,
-        #                 inference_mode=True,
-        #                 r=run_config.lora_r,
-        #                 num_experts=run_config.mole_num_experts,
-        #                 gate_mode=run_config.mole_gate_mode,
-        #                 lora_alpha=run_config.lora_alpha,
-        #                 lora_dropout=run_config.lora_dropout,
-        #                 target_modules=run_config.lora_target_modules,
-        #             )
-        #     self.protein_model = get_peft_model(self.protein_model, MOLE_config)
-        #     self.protein_model.load_state_dict(run_config.protein_model_state)
 
     def run(self):
         print('!!Starting KG preprocess!!')
-        # if self.run_config.MOLE == 0:
-        if True:
-            preprocess(model_name=self.run_config.protein_model_name, batch_size=32, output_path=self.run_config.output_path)
-        # elif self.run_config.MOLE == 1:
-        #     preprocess(model_name=self.run_config.protein_model_name, batch_size=32, model=self.protein_model)
+        preprocess(model_name=self.run_config.protein_model_name, batch_size=32, output_path=self.run_config.output_path)
+        

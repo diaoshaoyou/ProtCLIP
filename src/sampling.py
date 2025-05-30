@@ -9,6 +9,7 @@ csv.field_size_limit(sys.maxsize)
 
 # trEMBL=251131639    SwissProt=570420
 def clean(name='trEMBL'):
+    # in our original data, 
     # row[1]=entry name, row[2]=protein name, row[32]=function, row[69]=location, row[96]=similarity, row[19]=seq, row[45]=existence
     select_data=[]
     num_before={1:{1:0, 2:0, 3:0, 4:0}, 
@@ -68,7 +69,10 @@ def clean(name='trEMBL'):
     print(num_after)
     
 
-clean()
+clean() # obtain trEMBL_new.json
+
+# merge train.json and trEMBL_new.json to obtain train_new.json
+# train.json is directly from the training data in ProtST (https://github.com/DeepGraphLearning/ProtST)
 
 total=[]
 with open('data/ProtSTData/ProtDescribe/train.json', 'r') as f1:

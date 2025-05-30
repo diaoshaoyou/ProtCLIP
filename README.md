@@ -42,8 +42,22 @@ pretraining/testing batch size=64
 ### Dataset
 Beyond the accessed dataset above, we also include filtering codes for generating ProtAnno in [sampling.py](https://github.com/diaoshaoyou/ProtCLIP/blob/main/src/sampling.py). Please download orignal data from SwissProt and trEMBL before running ``sampling.py``. You can adjust exponents of different variables to control the filtering intensity.
 
-### Pre-training
+### Installation
+You may install the dependencies of ProtCLIP as below.
+```
+conda create -n protein python=3.9
+conda activate protein
+conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.7 -c pytorch -c nvidia
+conda install torchdrug pytorch-sparse pytorch-scatter pytorch-cluster -c pytorch -c pyg -c milagraph
+conda install scikit-learn pandas decorator ipython networkx tqdm matplotlib -y
+conda install fair-esm easydict pyyaml lmdb
+pip install deepspeed==0.12.4
+pip install transformers==4.35.2 accelerate==0.25.0 datasets peft
+pip install wandb
+```
 
+### Pre-training
+You can run ``train_pai.sh`` to perform pretraining tasks.
 
 ### Downstream
 You can run ``downstream_pai.sh`` to perform downstream tasks. We provide neccessary configuration files in [downstream.json](https://github.com/diaoshaoyou/ProtCLIP/blob/main/config/downstream.json) and default values are used for the remaining hyperparameters.
