@@ -18,26 +18,7 @@ echo "==========================================================================
 
 
 # run
-torchrun $ddp_options /root/CODE/protCLIP/downstream.py \
---deepspeed --deepspeed_config /root/CODE/ProtCLIP/zero1.json \
---output_path /root/DATA/ProtCLIP/Sub \
---model_name /root/DATA/ProtCLIP/checkpoint \
---task SingleLabelSequenceClassificationTask \
---dataset  SubcellularLocalization  \
---num_labels  10  \
---metric_for_best_model accuracy
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+torchrun $ddp_options /root/CODE/protclip/pretrain.py \
+--deepspeed --deepspeed_config /root/CODE/protclip/zero1.json \
+--batch_size 64 \
+--output_path /root/DATA/checkpoint

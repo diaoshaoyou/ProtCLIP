@@ -7,8 +7,6 @@ Figure 1: Overview of ProtCLIP.
 Multi-modality pre-training paradigm that aligns protein sequences and biological descriptions has learned general protein representations and achieved promising performance in various downstream applications. However, these works were still unable to replicate the extraordinary success of language-supervised visual foundation models due to the ineffective usage of aligned protein-text paired data and the lack of an effective function-informed pre-training paradigm. To address these issues, this paper curates a large-scale protein-text paired dataset called ProtAnno with a property-driven sampling strategy, and introduces a novel function-informed protein pre-training paradigm. Specifically, the sampling strategy
 determines selecting probability based on the sample confidence and property coverage, balancing the data quality and data quantity in face of large-scale noisy data. Furthermore, motivated by significance of the protein specific functional mechanism, the proposed paradigm explicitly model protein static and dynamic functional segments by two segment-wise pre-training objectives, injecting fine-grained information in a function-informed manner. Leveraging all these innovations, we develop ProtCLIP, a multi-modality foundation model that comprehensively represents function-aware protein embeddings. On 22 different protein benchmarks within 5 types, including protein functionality classification, mutation effect prediction, cross-modal transformation, semantic similarity inference and protein-protein interaction prediction, our ProtCLIP consistently achieves SOTA performance, with remarkable improvements of 75% on average in five cross-modal transformation benchmarks, 59.9% in GO-CC and 39.7% in GO-BP protein function prediction. The experimental results verify the extraordinary potential of ProtCLIP serving as the protein multi-modality foundation model.
 
-## Installation
-
 
 ## Multi-Modal Aligned Dataset
 The pre-training dataset for ProtCLIP is built on large-scale protein corpus [UniProt](https://www.uniprot.org/). 
@@ -38,6 +36,19 @@ deepspeed zero1
 gradient_checkpointing=True
 pretraining/testing batch size=64
 ```
+Here is the directory structure for the related code files:
+/root
+├── DATA
+│   ├── backbones
+│   ├── checkpoint
+│   ├── downstream
+│   └── datasets
+│       ├── downstream dataset 1
+│       ├── downstream dataset 2
+│       ├── ...
+│       └── pretraining dataset: ProtAnno
+└── CODE
+    └── protclip
 
 ### Dataset
 Beyond the accessed dataset above, we also include filtering codes for generating ProtAnno in [sampling.py](https://github.com/diaoshaoyou/ProtCLIP/blob/main/src/sampling.py). Please download orignal data from SwissProt and trEMBL before running ``sampling.py``. You can adjust exponents of different variables to control the filtering intensity.

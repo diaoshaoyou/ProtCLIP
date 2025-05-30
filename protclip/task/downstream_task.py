@@ -21,7 +21,7 @@ class DownstreamTask(object):
         raise NotImplementedError()
 
     def build_dataset(self):
-        protein_tokenizer = AutoTokenizer.from_pretrained('/root/data/backbones/esm2_t33_650M_UR50D')
+        protein_tokenizer = AutoTokenizer.from_pretrained('/root/DATA/backbones/esm2_t33_650M_UR50D')
 
         def preprocess_function(examples):
             tokenized_examples = protein_tokenizer(examples["seq"], truncation=True,

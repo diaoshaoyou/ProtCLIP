@@ -33,9 +33,9 @@ def preprocess(
     # encode batch size
     batch_size,
     # data path
-    data_path = "/root/data/datasets/ProtSTData/KG/",
+    data_path = "/root/DATA/datasets/KG/",
     # output path
-    output_path = "/root/data/FST/KG",
+    output_path = "/root/DATA/downstream/KG",
     # model
     model = None
     ):
@@ -47,7 +47,7 @@ def preprocess(
         config = AutoConfig.from_pretrained(model_name)
         model = AutoModel.from_pretrained(config._name_or_path)
     # model.print_trainable_parameters()
-    tokenizer = AutoTokenizer.from_pretrained('/root/data/backbones/esm2_t33_650M_UR50D')
+    tokenizer = AutoTokenizer.from_pretrained('/root/DATA/backbones/esm2_t33_650M_UR50D')
     model.to(device)
 
     # tokenizing data path

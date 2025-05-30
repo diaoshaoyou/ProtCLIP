@@ -16,12 +16,12 @@ def main():
     parser = argparse.ArgumentParser(description='FST')
     parser.add_argument('--task_name', type=str, default='esm2_t33_650M_UR50D_ProtCLIP')
     # path
-    parser.add_argument('--data_path', type=str, default='/root/DATA/datasets/ProtSTData')
-    parser.add_argument('--output_path', type=str, default='/root/DATA/ProtCLIP')
+    parser.add_argument('--data_path', type=str, default='/root/DATA/datasets')
+    parser.add_argument('--output_path', type=str, default='/root/DATA/checkpoint')
     # model
     parser.add_argument('--protein_model_name', type=str, default='/root/DATA/backbones/esm2_t33_650M_UR50D')
     parser.add_argument('--protein_model_fixed', type=bool, default=False)
-    parser.add_argument('--text_model_name', type=str, default='/root/data/backbones/BiomedNLP-PubMedBERT-base-uncased-abstract')
+    parser.add_argument('--text_model_name', type=str, default='/root/DATA/backbones/BiomedNLP-PubMedBERT-base-uncased-abstract')
     parser.add_argument('--text_model_fixed', type=bool, default=True)
     parser.add_argument('--projection_dim', type=int, default=512)
     parser.add_argument('--fusion_num_heads', type=int, default=8)
@@ -35,7 +35,7 @@ def main():
     parser.add_argument('--local_pool', type=str, default='avg')
     parser.add_argument('--fragment_range', type=int, default=60)
     # dataset
-    parser.add_argument('--dataset', type=str, default='ProtDescribe')
+    parser.add_argument('--dataset', type=str, default='ProtAnno')
     parser.add_argument('--max_length', type=int, default=1024)
     parser.add_argument('--text_attributes', nargs='+', default=['PROTEIN NAME', 'FUNCTION', 'SUBCELLULAR LOCATION', 'SIMILARITY'])
     parser.add_argument('--noise_lambda', type=int, default=3)
