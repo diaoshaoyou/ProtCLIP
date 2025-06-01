@@ -71,7 +71,7 @@ def clean(name='trEMBL'):
 
 clean() # obtain trEMBL_new.json
 
-# merge train.json and trEMBL_new.json to obtain train_new.json
+# merge train.json (i.e. ProtAnno-S) and trEMBL_new.json to obtain train_new.json (i.e. ProtAnno-D)
 # train.json is directly from the training data in ProtST (https://github.com/DeepGraphLearning/ProtST)
 
 total=[]

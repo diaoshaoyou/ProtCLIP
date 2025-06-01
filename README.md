@@ -36,22 +36,25 @@ deepspeed zero1
 gradient_checkpointing=True
 pretraining/testing batch size=64
 ```
-Here is the directory structure for the related code files:
+For better understanding, here is the directory structure for the related code files:
 /root
 ├── DATA
-│   ├── backbones
-│   ├── checkpoint
+│   ├── backbones (to be downloaded)
+│   ├── checkpoint (to be downloaded)
 │   ├── downstream
-│   └── datasets
-│       ├── downstream dataset 1
-│       ├── downstream dataset 2
+│   └── datasets (to be downloaded)
+│       ├── downstream dataset: AAV
+│       ├── downstream dataset: Reaction
 │       ├── ...
 │       └── pretraining dataset: ProtAnno
+│           ├── ProtAnno-S.json (i.e. train.json, to be downloaded)
+│           ├── ProtAnno-D.json (i.e. train_new.json, to be downloaded)
+│           └── valid.json
 └── CODE
     └── protclip
 
 ### Dataset
-Beyond the accessed dataset above, we also include filtering codes for generating ProtAnno in [sampling.py](https://github.com/diaoshaoyou/ProtCLIP/blob/main/src/sampling.py). Please download orignal data from SwissProt and trEMBL before running ``sampling.py``. You can adjust exponents of different variables to control the filtering intensity.
+Beyond the accessed pretraining dataset above, we also include filtering codes for generating ProtAnno in [sampling.py](https://github.com/diaoshaoyou/ProtCLIP/blob/main/src/sampling.py). Please download orignal data from SwissProt and trEMBL before running ``sampling.py``. You can adjust exponents of different variables to control the filtering intensity. For downstream datasets, we obtain them by running ``prepare.py`` (following [ProtST](https://github.com/DeepGraphLearning/ProtST/blob/main/script/prepare_all_datasets.py)).
 
 ### Installation
 You may install the dependencies of ProtCLIP as below.
