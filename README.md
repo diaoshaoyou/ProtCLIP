@@ -27,7 +27,7 @@ Note that the ProtAnno-D dataset has been filtered using the property-driven sam
 ## Pretrained Model Zoo
 We hope ProtCLIP could serve as the protein multi-modality foundation model to promote controllable protein discovery and optimization in real-world scenarios.
 
-ProtCLIP: [config](https://github.com/diaoshaoyou/ProtCLIP/blob/main/config/config.json) | [checkpoint](https://zenodo.org/records/15245588/files/model.safetensors?download=1)
+ProtCLIP: [config](https://github.com/diaoshaoyou/ProtCLIP/blob/main/checkpoint/config.json) | [checkpoint](https://zenodo.org/records/15245588/files/model.safetensors?download=1)
 
 ## Usage
 We train and test our models on Platform of Artificial Intelligence (PAI) from Alibaba Cloud. Here are some basic setups:
@@ -54,7 +54,7 @@ For better understanding, here is the directory structure for the related code f
     └── protclip
 
 ### Dataset
-Beyond the accessed pretraining dataset above, we also include filtering codes for generating ProtAnno in [sampling.py](https://github.com/diaoshaoyou/ProtCLIP/blob/main/src/sampling.py). Please download orignal data from SwissProt and trEMBL before running ``sampling.py``. You can adjust exponents of different variables to control the filtering intensity. For arrangement of downstream datasets and tasks, KG follows [BioBridge](https://github.com/RyanWangZf/BioBridge) and others follows [ProtST](https://github.com/DeepGraphLearning/ProtST/blob/main/script/prepare_all_datasets.py).
+Beyond the accessed pretraining dataset above, we also include filtering codes for generating ProtAnno in [sampling.py](https://github.com/diaoshaoyou/ProtCLIP/blob/main/protclip/sampling.py). Please download orignal data from SwissProt and trEMBL before running ``sampling.py``. You can adjust exponents of different variables to control the filtering intensity. For arrangement of downstream datasets and tasks, KG follows [BioBridge](https://github.com/RyanWangZf/BioBridge) and others follows [ProtST](https://github.com/DeepGraphLearning/ProtST/blob/main/script/prepare_all_datasets.py).
 
 ### Installation
 You may install the dependencies of ProtCLIP as below.
@@ -74,7 +74,7 @@ pip install wandb
 You can run ``train_pai.sh`` to perform pretraining tasks.
 
 ### Downstream
-You can run ``downstream_pai.sh`` to perform downstream tasks. We provide neccessary configuration files in [downstream_config.json](https://github.com/diaoshaoyou/ProtCLIP/blob/main/downstream_config.json) and default values are used for the remaining hyperparameters.
+You can run ``downstream_pai.sh`` to perform downstream tasks. We provide neccessary configuration files in [downstream_config.yaml](https://github.com/diaoshaoyou/ProtCLIP/blob/main/downstream_config.yaml) and default values are used for the remaining hyperparameters.
 
 ## License
 This codebase is released under the Apache License 2.0 as in the [LICENSE](https://github.com/diaoshaoyou/ProtCLIP/blob/main/LICENSE) file.
