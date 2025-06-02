@@ -78,7 +78,7 @@ You can run ``downstream_pai.sh`` to perform downstream tasks. We provide necces
 
 ## License
 This codebase is released under the Apache License 2.0 as in the [LICENSE](https://github.com/diaoshaoyou/ProtCLIP/blob/main/LICENSE) file.
-)
+
 ## Citation
 If you find this research work interesting and helpful, please cite our paper:
 ```
