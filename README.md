@@ -1,4 +1,4 @@
-# ProtCLIP: Function-Informed Protein Multi-Modal Learning
+# ProtCLIP: Function-Informed Protein Multi-Modal Learning (AAAI 2025 oral)
 ProtCLIP is a protein multi-modality foundation model for protein sequence understanding, aligning protein sequences and biotexts, as introduced in our [AAAI 2025 oral paper](https://ojs.aaai.org/index.php/AAAI/article/view/34456). And we have contained more technical details in the [arXiv version](https://arxiv.org/abs/2412.20014).
 
 <img src="figures/overview.png" alt="framework" width="850" height="300"> 
