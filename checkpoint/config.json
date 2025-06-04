@@ -20,7 +20,7 @@
   "projection_dim": 512,
   "protein_mask_probability": 0.15,
   "protein_model_config": {
-    "_name_or_path": "/root/data/backbones/esm2_t33_650M_UR50D",
+    "_name_or_path": "/root/DATA/backbones/esm2_t33_650M_UR50D",
     "add_cross_attention": false,
     "architectures": [
       "EsmForMaskedLM"
@@ -109,7 +109,7 @@
   "t2p_mlm": 1,
   "text_mask_probability": 0.15,
   "text_model_config": {
-    "_name_or_path": "/root/data/backbones/BiomedNLP-PubMedBERT-base-uncased-abstract",
+    "_name_or_path": "/root/DATA/backbones/BiomedNLP-PubMedBERT-base-uncased-abstract",
     "add_cross_attention": false,
     "architectures": [
       "BertForMaskedLM"

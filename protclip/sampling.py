@@ -9,7 +9,7 @@ csv.field_size_limit(sys.maxsize)
 
 # trEMBL=251131639    SwissProt=570420
 def clean(name='trEMBL'):
-    # in our original data, 
+    # in our original data (from UniProt)
     # row[1]=entry name, row[2]=protein name, row[32]=function, row[69]=location, row[96]=similarity, row[19]=seq, row[45]=existence
     select_data=[]
     num_before={1:{1:0, 2:0, 3:0, 4:0}, 
@@ -20,7 +20,7 @@ def clean(name='trEMBL'):
     num_after={1:{3:0, 4:0},
                2:{3:0, 4:0},
                3:{3:0, 4:0}}
-    with open(f'data/{name}.tsv', 'r', encoding='utf-8', newline='') as file:
+    with open(f'/root/DATA/{name}.tsv', 'r', encoding='utf-8', newline='') as file:
         reader = csv.reader(file, delimiter='\t')
         for i, row in enumerate(reader): 
             if i==0:
@@ -60,7 +60,7 @@ def clean(name='trEMBL'):
                     num_after[existence][occupy]+=1
             print(i)
 
-    with open('data/trEMBL_new.json', 'w') as file:
+    with open('/root/DATA/trEMBL_new.json', 'w') as file:
         for idx, item in enumerate(select_data):
             json.dump(item, file)
             file.write('\n')
@@ -75,16 +75,16 @@ clean() # obtain trEMBL_new.json
 # train.json is directly from the training data in ProtST (https://github.com/DeepGraphLearning/ProtST)
 
 total=[]
-with open('data/ProtSTData/ProtDescribe/train.json', 'r') as f1:
+with open('/root/DATA/datasets/ProtAnno/train.json', 'r') as f1:
     for idx, line in enumerate(f1):
         total.append(json.loads(line.strip()))
         print(len(total))
-with open('data/trEMBL_new.json', 'r') as f2:
+with open('/root/DATA/trEMBL_new.json', 'r') as f2:
     for idx, line in enumerate(f2):
         total.append(json.loads(line.strip()))
         print(len(total))
 
-with open('data/train_new.json', 'w') as f3:
+with open('/root/DATA/datasets/ProtAnno/train_new.json', 'w') as f3:
     for idx, item in enumerate(total):
         json.dump(item, f3)
         f3.write('\n')
